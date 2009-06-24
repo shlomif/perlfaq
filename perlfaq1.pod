@@ -170,8 +170,8 @@ will compile and run Perl 6 bytecode.
 At The Second O'Reilly Open Source Software Convention, Larry Wall
 announced Perl 6 development would begin in earnest. Perl 6 was an oft
 used term for Chip Salzenberg's project to rewrite Perl in C++ named
-Topaz. However, Topaz provided valuable insights to the next version
-of Perl and its implementation, but was ultimately abandoned.
+Topaz. However, while Topaz provided valuable insights to the next version
+of Perl and its implementation, it was ultimately abandoned.
 
 If you want to learn more about Perl 6, or have a desire to help in
 the crusade to make Perl a better place then peruse the Perl 6 developers
