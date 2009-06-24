@@ -388,8 +388,8 @@ choice and how Perl might satisfy that requirement.
 
 You don't have to worry about finding or paying for Perl; it's freely
 available and several popular operating systems come with Perl. Community
-support in places such as Perlmonks ( http://www.perlmonks.com )
-and the various Perl mailing lists ( http://lists.perl.org ) means that
+support in places such as Perlmonks ( http://www.perlmonks.com/ )
+and the various Perl mailing lists ( http://lists.perl.org/ ) means that
 you can usually get quick answers to your problems.
 
 Finally, keep in mind that Perl might not be the right tool for every
