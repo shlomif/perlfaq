@@ -153,7 +153,7 @@ foreach my $file ( @files )
 	$_ = <FILE>;
 	close FILE;
 
-	my( $title, $short ) = m/=head1 NAME\s+(perlfaq\d)\s+-\s+(.*?)\s+\(\$R/;
+	my( $title, $short ) = m/=head1 NAME\s+(perlfaq\d)\s+-\s+(.*?)\s*\n\s*\n/;
 	print "=head2 L<$title>: $short\n\n";
 
 	my( $d ) = m/^=head1 DESCRIPTION\s+(.*?)\s+=head[12]/sm;
