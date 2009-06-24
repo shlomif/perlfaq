@@ -228,7 +228,8 @@ discussed in Part 2.
 
 Favorably in some areas, unfavorably in others.  Precisely which areas
 are good and bad is often a personal choice, so asking this question
-on Usenet runs a strong risk of starting an unproductive Holy War.
+on the various types of Internet forums runs a strong risk of starting an
+unproductive Holy War.
 
 Probably the best thing to do is try to write equivalent code to do a
 set of tasks.  These languages have their own newsgroups in which you
@@ -258,7 +259,7 @@ That said, there will always be small, focused, special-purpose
 languages dedicated to a specific problem domain that are simply more
 convenient for certain kinds of problems.  Perl tries to be all things
 to all people, but nothing special to anyone.  Examples of specialized
-languages that come to mind include prolog and matlab.
+languages that come to mind include Prolog and Matlab.
 
 =head2 When shouldn't I program in Perl?
 
