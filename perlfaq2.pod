@@ -213,7 +213,7 @@ but asking someone to write your code for free is not very cool.
 You should post source code to whichever group is most appropriate, but
 feel free to cross-post to comp.lang.perl.misc.  If you want to cross-post
 to alt.sources, please make sure it follows their posting standards,
-including setting the Followup-To header line to NOT include alt.sources;
+including setting the Followup-To header line to B<NOT> include alt.sources;
 see their FAQ ( http://www.faqs.org/faqs/alt-sources-intro/ ) for details.
 
 If you're just looking for software, first use Google
