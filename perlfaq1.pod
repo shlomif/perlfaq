@@ -327,6 +327,18 @@ they have begun to take on strange and often pejorative meanings,
 like "non serious" or "not real programming".  Consequently, some Perl
 programmers prefer to avoid them altogether.
 
+For further discussion see:
+
+=over 4
+
+=item * Larry Wall's Talk "Programming is Hard, Let's Go Scripting" 
+
+http://www.perl.com/pub/a/2007/12/06/soto-11.html
+
+=item * Andy Lester's Stop saying "script"
+
+http://xoa.petdance.com/Stop_saying_%22script%22
+
 =head2 What is a JAPH?
 
 (contributed by brian d foy)
