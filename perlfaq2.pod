@@ -217,8 +217,8 @@ including setting the Followup-To header line to B<NOT> include alt.sources;
 see their FAQ ( http://www.faqs.org/faqs/alt-sources-intro/ ) for details.
 
 If you're just looking for software, first use Google
-( http://www.google.com ), Google's usenet search interface
-( http://groups.google.com ),  and CPAN Search ( http://search.cpan.org ).
+( http://www.google.com/ ), Google's usenet search interface
+( http://groups.google.com/ ),  and CPAN Search ( http://search.cpan.org/ ).
 This is faster and more productive than just posting a request.
 
 =head2 Perl Books
