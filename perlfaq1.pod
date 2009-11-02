@@ -339,6 +339,8 @@ http://www.perl.com/pub/a/2007/12/06/soto-11.html
 
 http://xoa.petdance.com/Stop_saying_%22script%22
 
+=back
+
 =head2 What is a JAPH?
 
 (contributed by brian d foy)
