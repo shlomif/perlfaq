@@ -68,3 +68,12 @@ __END__
 +perlfaq4 - How do I traverse nested hashes?
 + - How can I make a deep copy
 + - Unicode stuff
+
+?perlfaq5 - > > 5.17: Is there a leak/bug in glob()?
+	> >
+	> >     Due to the current implementation on some operating systems, when you
+	> >     use the glob() function or its angle-bracket alias in a scalar context,
+	> >     you may cause a memory leak and/or unpredictable behavior. It's best
+	> >     therefore to use glob() only in list context.
+	> 
+	> How old is this FAQ?  Is the leak still there?
