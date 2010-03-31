@@ -1,0 +1,17 @@
+This is a test posting of the official p5p FAQ in
+preparation for a periodic posting. It's not an automatic
+posting yet.
+
+The p5p Faq lives in the perlfaq repository:
+
+	http://github.com/briandfoy/perlfaq
+
+You can also read the FAQ at
+
+	http://faq.perl.org/p5pfaq.html
+
+--------------------------------------------------------------------
+
+{ $body }
+
+--------------------------------------------------------------------
