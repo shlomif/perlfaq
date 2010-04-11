@@ -32,7 +32,7 @@ from the C<perlthanks> utility (which we encourage you to use).
 =head2 What is the list not for?
 
 The list is for the development of the perl codebase. If it's not related
-to developing the codebase, it probably doesn't belong on the list. For 
+to developing the codebase, it probably doesn't belong on the list. For
 example, these thing should not be on the list:
 
     * Announcements about events related to Perl
@@ -190,7 +190,7 @@ pumpking for the area you're patching, or one of the referees.
 
 Perl is available inside a git repository. Git ( L<http://git-scm.com/> ) is a
 popular, distributed and open-source version control system. To learn more
-about checking out the Perl source using git see: 
+about checking out the Perl source using git see:
 
 L<http://perl5.git.perl.org/perl.git/blob/HEAD:/pod/perlrepository.pod>
 
@@ -242,7 +242,7 @@ patches on a specific area.
 =head2 What's B<the> pumpking?
 
 B<The> pumpking is the person who holds the patch pumpkin for Perl
-itself, what other projects call the "release engineer". The 
+itself, what other projects call the "release engineer". The
 pumpking for each version of Perl is listed in the perlhist
 documentation.
 
@@ -250,7 +250,7 @@ documentation.
 
 While the pumpking has the overall responsibility for delivering the
 stable releases of perl, the release manager manages the regular releases
-of the development versions. The release manager handles the short 
+of the development versions. The release manager handles the short
 term development cycles. They care out their duties under the guidance
 and supervision of the pumpking.
 
@@ -265,7 +265,7 @@ There are never enough C<Acme::> modules in core.
 Participate through Github:
 
     http://github.com/briandfoy/perlfaq
-    
+
 You can also send comments to perlfaq-workers@perl.org .
 
 =head1 AUTHORS

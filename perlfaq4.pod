@@ -12,7 +12,7 @@ numbers, dates, strings, arrays, hashes, and miscellaneous data issues.
 =head2 Why am I getting long decimals (eg, 19.9499999999999) instead of the numbers I should be getting (eg, 19.95)?
 
 For the long explanation, see David Goldberg's "What Every Computer
-Scientist Should Know About Floating-Point Arithmetic" 
+Scientist Should Know About Floating-Point Arithmetic"
 (http://docs.sun.com/source/806-3568/ncg_goldberg.html).
 
 Internally, your computer represents floating-point numbers in binary.
@@ -545,7 +545,7 @@ Perl itself never had a Y2K problem, although that never stopped people
 from creating Y2K problems on their own. See the documentation for
 C<localtime> for its proper use.
 
-Starting with Perl 5.11, C<localtime> and C<gmtime> can handle dates past 
+Starting with Perl 5.11, C<localtime> and C<gmtime> can handle dates past
 03:14:08 January 19, 2038, when a 32-bit based time would overflow. You
 still might get a warning on a 32-bit C<perl>:
 
@@ -1217,7 +1217,7 @@ for list operations, so list operations also work on arrays:
 
 	my @three = grep { length == 3 } qw( dog cat bird );
 	my @three = grep { length == 3 } @animals;
-	
+
 	# supply an argument list
 	wash_animals( qw( dog cat bird ) );
 	wash_animals( @animals );
@@ -1240,15 +1240,15 @@ You can change an array element, but you can't change a list element:
 	foreach ( @animals ) {
 		s/^d/fr/;  # works fine
 		}
-	
+
 	foreach ( qw( dog cat bird ) ) {
 		s/^d/fr/;  # Error! Modification of read only value!
 		}
 
-However, if the list element is itself a variable, it appears that you 
+However, if the list element is itself a variable, it appears that you
 can change a list element. However, the list element is the variable, not
 the data. You're not changing the list element, but something the list
-element refers to. The list element itself doesn't change: it's still 
+element refers to. The list element itself doesn't change: it's still
 the same variable.
 
 You also have to be careful about context. You can assign an array to
@@ -1256,7 +1256,7 @@ a scalar to get the number of elements in the array. This only works
 for arrays, though:
 
 	my $count = @animals;  # only works with arrays
-	
+
 If you try to do the same thing with what you think is a list, you
 get a quite different result. Although it looks like you have a list
 on the righthand side, Perl actually sees a bunch of scalars separated
@@ -1296,8 +1296,8 @@ You can pull out multiple elements simultaneously by specifying
 additional indices as a list, like C<@array[1,4,3,0]>.
 
 Using a slice on the lefthand side of the assignment supplies list
-context to the righthand side. This can lead to unexpected results. 
-For instance, if you want to read a single line from a filehandle, 
+context to the righthand side. This can lead to unexpected results.
+For instance, if you want to read a single line from a filehandle,
 assigning to a scalar value is fine:
 
 	$array[1] = <STDIN>;
@@ -2137,9 +2137,9 @@ You can use the C<keys()> built-in function in scalar context to find out
 have many entries you have in a hash:
 
 	my $key_count = keys %hash; # must be scalar context!
-	
+
 If you want to find out how many entries have a defined value, that's
-a bit different. You have to check each value. A C<grep> is handy: 
+a bit different. You have to check each value. A C<grep> is handy:
 
 	my $defined_value_count = grep { defined } values %hash;
 
@@ -2148,7 +2148,7 @@ you like. If you want the count of the keys with vowels in them,
 you just test for that instead:
 
 	my $vowel_count = grep { /[aeiou]/ } keys %hash;
-	
+
 The C<grep> in scalar context returns the count. If you want the list
 of matching items, just use it in list context instead:
 

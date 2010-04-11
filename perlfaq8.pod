@@ -909,7 +909,7 @@ causes many inefficiencies.
 =head2 Can I use perl to run a telnet or ftp session?
 
 Try the C<Net::FTP>, C<TCP::Client>, and C<Net::Telnet> modules
-(available from CPAN). 
+(available from CPAN).
 http://www.cpan.org/scripts/netstuff/telnet.emul.shar will also help
 for emulating the telnet protocol, but C<Net::Telnet> is quite
 probably easier to use.
@@ -1014,8 +1014,8 @@ perform these actions for you.
 
 (contributed by brian d foy)
 
-This is a difficult question to answer, and the best answer is 
-only a guess. 
+This is a difficult question to answer, and the best answer is
+only a guess.
 
 What do you really want to know? If you merely want to know if one of
 your filehandles is connected to a terminal, you can try the C<-t>
@@ -1024,7 +1024,7 @@ file test:
 	if( -t STDOUT ) {
 		print "I'm connected to a terminal!\n";
 		}
-		
+
 However, you might be out of luck if you expect that means there is a
 real person on the other side. With the C<Expect> module, another
 program can pretend to be a person. The program might even come close
@@ -1037,7 +1037,7 @@ session is interactive. Otherwise, the filehandle is a null handle
 that simply discards the output:
 
 	use IO::Interactive;
-	
+
 	print { is_interactive } "I might go to standard output!\n";
 
 This still doesn't guarantee that a real person is answering your
@@ -1200,7 +1200,7 @@ to install:
 If you prefer C<CPANPLUS>, it's just as easy:
 
 	$ cpanp i IO::Interactive Getopt::Whatever
-	
+
 If you want to install a distribution from the current directory, you can
 tell C<CPAN.pm> to install C<.> (the full stop):
 
@@ -1217,7 +1217,7 @@ For distributions that use I<Makefile.PL>:
 
 	$ perl Makefile.PL
 	$ make test install
-	
+
 For distributions that use I<Build.PL>:
 
 	$ perl Build.PL
