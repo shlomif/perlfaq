@@ -1,0 +1,242 @@
+#!/usr/bin/perl
+
+package PerlFAQ::Poster::Usenet;
+use strict;
+use warnings;
+
+=head1 NAME
+
+post-p5p-faq - post the Perl 5 Porters faq to p5p
+
+=head1 SYNOPSIS
+
+post-p5p-faq [configfile]
+
+=head1 DESCRIPTION
+
+This script posts a portion of the p5pfaq to perl.
+
+=head2 Configuration
+
+This script uses these configuration directives:
+
+	SERVER           the news server to post to
+	GROUP            the group to post to
+	EMAIL            the email address to use in the From field
+	POST_TEMPLATE    the Text::Template file to use
+	NNTP_USER        the NNTP user (if needed)
+	NNTP_PASS        the NNTP password (if needed)
+	DEBUG            true or false
+	IGNORE_POSTOK    true if your newsserver gives the wrong answer
+	
+This is a sample configuration file:
+
+	SERVER        nntp.perl.org
+	GROUP         perl.perl5.porters
+	EMAIL         joe@example.com
+	POST_TEMPLATE /path/to/template
+	
+The script checks the file specified on the command line first.
+If you do not specify a file, it looks in the environment variable
+POSTFAQ_CONFIG, and finally for ~/.postfaqrc.  It uses the first
+configuration filename it finds.
+
+If the file does not exist, is not a plain file, or is not 
+readable, the script dies.
+		
+=head2 Post template
+
+The post template, specified in the POST_TEMPLATE configuration
+directive, is a Text::Template file.  The script makes available
+the following variables:
+
+	$subject   the question line of the faq 
+	$body      the answer to the question
+
+If the template file does not exist, is not a plain file, and is not 
+readable, the script dies.
+
+=head2 Errors
+
+On any error, the script dies.  It looks for various files, and if
+it does not find them, stops the script.
+
+=head1 TO DO
+
+* check the configuration info for all of the necessary pieces
+before we start work.
+
+* don't print error messages in non-interactive sessions
+
+* finish the docs :)
+
+=head1 BUGS
+
+* none identified yet.
+
+=head1 SEE ALSO
+
+L<Text::Template>
+
+=head1 AUTHOR
+
+brian d foy, C<< <bdfoy@cpan.org> >>
+
+=head1 COPYRIGHT
+
+Copyright 2010, brian d foy
+
+You may use and redistribute this under the same terms as Perl itself.
+
+=cut
+
+use File::Spec;
+use Log::Log4perl qw(:easy);
+use Net::NNTP;
+use Text::Template;
+
+__PACKAGE__->run unless caller;
+
+sub run
+	{
+	
+	my $config                   = get_config( $ARGV[0] );
+								   check_setup( $config );
+	Log::Log4perl->easy_init( $config->DEBUG ? $DEBUG : $INFO );
+		
+	my $file                     = 'p5pfaq.pod';
+
+	DEBUG( "Connecting to NNTP server" );
+	my $nntp                     = get_nntp( $config );
+	DEBUG( "Connected to NNTP server" );
+	
+	my( $subject, $body )        = get_content( $file );
+	DEBUG( "Subject is $subject" );	
+	
+	my $message = Text::Template::fill_in_file( 
+		$config->POST_TEMPLATE,
+	
+		HASH =>
+			{
+			commit_id   => get_commit_id(),
+			commit_date => get_commit_date(),
+			subject     => $subject,
+			body        => $body,
+			} 
+		);
+	
+	my @header                   = get_header( $config, $subject );
+	
+	if( $config->DEBUG )
+		{
+		print @header, "\n", $message;
+		}
+	else
+		{
+		$nntp->post( @header, "\n", split /$/m, $message );
+		}
+		
+	$nntp->quit;
+	
+	return 1;
+	}
+	
+# # # # # # # # # # # # # # #
+ # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # #
+
+sub get_config
+	{
+	require ConfigReader::Simple;
+	
+	my $file = shift;
+	
+	$file ||= $ENV{POSTFAQ_CONFIG} || 
+		File::Spec->catfile( $ENV{HOME}, ".p5pfaqrc");
+		
+	die "Could not open config file [$file]"
+		unless -e $file && -f _ && -r _;
+	
+	die "Could not open configuration file [$file]"
+		unless -e $file && -f _ && -r _;
+		
+	my $config    = ConfigReader::Simple->new( $file );
+	die "Could not parse config file!" unless 
+		UNIVERSAL::isa( $config, 'ConfigReader::Simple' );	
+		
+	$config;	
+	}
+
+sub check_setup
+	{
+	my $config = shift;
+	
+	die "Could not open template [" . $config->POST_TEMPLATE . "]"
+		unless check_file( $config->POST_TEMPLATE );
+
+	die "Could not open history [" . $config->HISTORY . "]"
+		unless check_file( $config->POST_TEMPLATE );
+	}
+
+sub get_nntp
+	{
+	my $config = shift;
+	
+	my $nntp = Net::NNTP->new( $config->SERVER, Debug => $config->DEBUG );
+	unless( $config->IGNORE_POSTOK )
+		{
+		$nntp->postok() or die "Posting to @{[$config->SERVER]} not allowed\n";
+		}
+		
+	if( defined $config->NNTP_USER || defined $config->NNTP_PASS )
+		{
+		my $authorized = $nntp->authinfo( $config->NNTP_USER, $config->NNTP_PASS ); 
+		die "Authoriztion to @{[$config->SERVER]} failed!\n" unless $authorized;
+		}
+	
+	$nntp;
+	}
+	
+sub check_file
+	{
+	my $file = shift || '';
+	
+	-r $file;
+	}
+	
+sub check_dir
+	{
+	my $dir = shift || '';
+	
+	-d $dir;
+	}
+	
+sub get_content
+	{
+	my $file = shift;
+	
+	open my $fh, '<:utf8', $file or die "Could not open FAQ [$file]: $!";
+	
+	open my $out, '>:utf8', \ my $text or die "Could not open output string: $!";
+
+	use Pod::Text;
+    my $parser = Pod::Text->new( sentence => 0, width => 78 );
+    $parser->parse_from_filehandle( $fh, $out );
+	
+	( 'The Official p5p FAQ', $text )
+	}
+	
+sub get_header
+	{
+	my $config  = shift;
+	my $subject = shift;
+	
+	my @header = map "$_\n", (
+		"Newsgroups: " . $config->GROUP,
+		"Subject: $subject",
+		"From: PerlFAQ Server <" . $config->EMAIL . ">",
+		);
+	}
+
+sub get_commit_id   { 'abcdefg' }
+sub get_commit_date { 'Jan 1, 1970' }

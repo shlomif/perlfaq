@@ -103,7 +103,7 @@ It even includes limited support for Windows.
 
 However, using the code requires that you have a working C compiler
 and can use it to build and install a CPAN module.  Here's a solution
-using the standard C<POSIX> module, which is already on your systems
+using the standard C<POSIX> module, which is already on your system
 (assuming your system supports POSIX).
 
 	use HotKey;
@@ -391,7 +391,7 @@ C<Parallel::ForkManager>, C<POE>, C<Proc::Background>, and
 C<Win32::Process>. There are many other modules you might use, so
 check those namespaces for other options too.
 
-If you are on a unix-like system, you might be able to get away with a
+If you are on a Unix-like system, you might be able to get away with a
 system call where you put an C<&> on the end of the command:
 
 	system("cmd &")
@@ -496,7 +496,7 @@ the VMS equivalent is C<set time>.
 However, if all you want to do is change your time zone, you can
 probably get away with setting an environment variable:
 
-	$ENV{TZ} = "MST7MDT";		   # unixish
+	$ENV{TZ} = "MST7MDT";		   # Unixish
 	$ENV{'SYS$TIMEZONE_DIFFERENTIAL'}="-5" # vms
 	system "trn comp.lang.perl.misc";
 
@@ -866,7 +866,7 @@ stuck, because Windows does not have an argc/argv-style API.
 =head2 Why can't my script read from STDIN after I gave it EOF (^D on Unix, ^Z on MS-DOS)?
 
 This happens only if your perl is compiled to use stdio instead of
-perlio, which is the default. Some (maybe all?) stdio's set error and
+perlio, which is the default. Some (maybe all?) stdios set error and
 eof flags that you may need to clear. The C<POSIX> module defines
 C<clearerr()> that you can use.  That is the technically correct way to
 do it.  Here are some less reliable workarounds:
@@ -909,7 +909,7 @@ causes many inefficiencies.
 =head2 Can I use perl to run a telnet or ftp session?
 
 Try the C<Net::FTP>, C<TCP::Client>, and C<Net::Telnet> modules
-(available from CPAN). 
+(available from CPAN).
 http://www.cpan.org/scripts/netstuff/telnet.emul.shar will also help
 for emulating the telnet protocol, but C<Net::Telnet> is quite
 probably easier to use.
@@ -1014,15 +1014,17 @@ perform these actions for you.
 
 (contributed by brian d foy)
 
-This is a difficult question to answer, and the best answer is 
-only a guess. What do you really want to know? If you merely 
-want to know if one of your filehandles is connected to a terminal,
-you can try the C<-t> file test:
+This is a difficult question to answer, and the best answer is
+only a guess.
+
+What do you really want to know? If you merely want to know if one of
+your filehandles is connected to a terminal, you can try the C<-t>
+file test:
 
 	if( -t STDOUT ) {
 		print "I'm connected to a terminal!\n";
 		}
-		
+
 However, you might be out of luck if you expect that means there is a
 real person on the other side. With the C<Expect> module, another
 program can pretend to be a person. The program might even come close
@@ -1035,7 +1037,7 @@ session is interactive. Otherwise, the filehandle is a null handle
 that simply discards the output:
 
 	use IO::Interactive;
-	
+
 	print { is_interactive } "I might go to standard output!\n";
 
 This still doesn't guarantee that a real person is answering your
@@ -1198,7 +1200,7 @@ to install:
 If you prefer C<CPANPLUS>, it's just as easy:
 
 	$ cpanp i IO::Interactive Getopt::Whatever
-	
+
 If you want to install a distribution from the current directory, you can
 tell C<CPAN.pm> to install C<.> (the full stop):
 
@@ -1215,7 +1217,7 @@ For distributions that use I<Makefile.PL>:
 
 	$ perl Makefile.PL
 	$ make test install
-	
+
 For distributions that use I<Build.PL>:
 
 	$ perl Build.PL
@@ -1377,17 +1379,9 @@ It's a Perl 4 style file defining values for system networking
 constants.  Sometimes it is built using C<h2ph> when Perl is installed,
 but other times it is not.  Modern programs C<use Socket;> instead.
 
-=head1 REVISION
-
-Revision: $Revision$
-
-Date: $Date$
-
-See L<perlfaq> for source control details and availability.
-
 =head1 AUTHOR AND COPYRIGHT
 
-Copyright (c) 1997-2009 Tom Christiansen, Nathan Torkington, and
+Copyright (c) 1997-2010 Tom Christiansen, Nathan Torkington, and
 other authors as noted. All rights reserved.
 
 This documentation is free; you can redistribute it and/or modify it

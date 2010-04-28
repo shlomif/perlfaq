@@ -11,6 +11,10 @@ numbers, dates, strings, arrays, hashes, and miscellaneous data issues.
 
 =head2 Why am I getting long decimals (eg, 19.9499999999999) instead of the numbers I should be getting (eg, 19.95)?
 
+For the long explanation, see David Goldberg's "What Every Computer
+Scientist Should Know About Floating-Point Arithmetic"
+(http://docs.sun.com/source/806-3568/ncg_goldberg.html).
+
 Internally, your computer represents floating-point numbers in binary.
 Digital (as in powers of two) computers cannot store all numbers
 exactly.  Some real numbers lose precision in the process.  This is a
@@ -62,7 +66,7 @@ are in base 10:
 	print $string + 44; # prints 688, certainly not octal!
 
 This problem usually involves one of the Perl built-ins that has the
-same name a unix command that uses octal numbers as arguments on the
+same name a Unix command that uses octal numbers as arguments on the
 command line. In this example, C<chmod> on the command line knows that
 its first argument is octal because that's what it does:
 
@@ -297,8 +301,8 @@ but a string consisting of two null bytes (the result of C<"\020\020"
 
 =head2 How do I multiply matrices?
 
-Use the Math::Matrix or Math::MatrixReal modules (available from CPAN)
-or the PDL extension (also available from CPAN).
+Use the C<Math::Matrix> or C<Math::MatrixReal> modules (available from CPAN)
+or the C<PDL> extension (also available from CPAN).
 
 =head2 How do I perform an operation on a series of integers?
 
@@ -342,7 +346,7 @@ will not create a list of 500,000 integers.
 
 =head2 How can I output Roman numerals?
 
-Get the http://www.cpan.org/modules/by-module/Roman module.
+Get the L<http://www.cpan.org/modules/by-module/Roman> module.
 
 =head2 Why aren't my random numbers random?
 
@@ -358,7 +362,7 @@ rather than more.
 Computers are good at being predictable and bad at being random
 (despite appearances caused by bugs in your programs :-).  see the
 F<random> article in the "Far More Than You Ever Wanted To Know"
-collection in http://www.cpan.org/misc/olddoc/FMTEYEWTK.tgz , courtesy
+collection in L<http://www.cpan.org/misc/olddoc/FMTEYEWTK.tgz>, courtesy
 of Tom Phoenix, talks more about this.  John von Neumann said, "Anyone
 who attempts to generate random numbers by deterministic means is, of
 course, living in a state of sin."
@@ -368,7 +372,7 @@ provides, you should also check out the C<Math::TrulyRandom> module from
 CPAN.  It uses the imperfections in your system's timer to generate
 random numbers, but this takes quite a while.  If you want a better
 pseudorandom generator than comes with your operating system, look at
-"Numerical Recipes in C" at http://www.nr.com/ .
+"Numerical Recipes in C" at L<http://www.nr.com/>.
 
 =head2 How do I get a random number between X and Y?
 
@@ -401,8 +405,8 @@ integers (inclusive), For example: C<random_int_between(50,120)>.
 
 =head2 How do I find the day or week of the year?
 
-The localtime function returns the day of the year.  Without an
-argument localtime uses the current time.
+The C<localtime> function returns the day of the year.  Without an
+argument C<localtime> uses the current time.
 
 	$day_of_year = (localtime)[7];
 
@@ -414,7 +418,7 @@ week of the year.
 	my $week_of_year = strftime "%W", localtime;
 
 To get the day of year for any date, use C<POSIX>'s C<mktime> to get
-a time in epoch seconds for the argument to localtime.
+a time in epoch seconds for the argument to C<localtime>.
 
 	use POSIX qw/mktime strftime/;
 	my $week_of_year = strftime "%W",
@@ -537,11 +541,11 @@ doesn't matter and you end up with the previous date.
 
 (contributed by brian d foy)
 
-Perl itself never had a Y2K problem, although that nevers stopped people
+Perl itself never had a Y2K problem, although that never stopped people
 from creating Y2K problems on their own. See the documentation for
 C<localtime> for its proper use.
 
-Starting with Perl 5.11, C<localtime> and C<gmtime> can handle dates past 
+Starting with Perl 5.11, C<localtime> and C<gmtime> can handle dates past
 03:14:08 January 19, 2038, when a 32-bit based time would overflow. You
 still might get a warning on a 32-bit C<perl>:
 
@@ -978,7 +982,7 @@ Left and right padding with any character, modifying C<$text> directly:
 
 (contributed by brian d foy)
 
-If you know where the columns that contain the data, you can
+If you know the columns that contain the data, you can
 use C<substr> to extract a single column.
 
 	my $column = substr( $line, $start_column, $length );
@@ -1197,43 +1201,115 @@ indentation correctly preserved:
 
 =head2 What is the difference between a list and an array?
 
-An array has a changeable length.  A list does not.  An array is
-something you can push or pop, while a list is a set of values.  Some
-people make the distinction that a list is a value while an array is a
-variable. Subroutines are passed and return lists, you put things into
-list context, you initialize arrays with lists, and you C<foreach()>
-across a list.  C<@> variables are arrays, anonymous arrays are
-arrays, arrays in scalar context behave like the number of elements in
-them, subroutines access their arguments through the array C<@_>, and
-C<push>/C<pop>/C<shift> only work on arrays.
+(contributed by brian d foy)
 
-As a side note, there's no such thing as a list in scalar context.
-When you say
+A list is a fixed collection of scalars. An array is a variable that
+holds a variable collection of scalars. An array can supply its collection
+for list operations, so list operations also work on arrays:
 
-	$scalar = (2, 5, 7, 9);
+	# slices
+	( 'dog', 'cat', 'bird' )[2,3];
+	@animals[2,3];
 
-you're using the comma operator in scalar context, so it uses the scalar
-comma operator.  There never was a list there at all! This causes the
-last value to be returned: 9.
+	# iteration
+	foreach ( qw( dog cat bird ) ) { ... }
+	foreach ( @animals ) { ... }
+
+	my @three = grep { length == 3 } qw( dog cat bird );
+	my @three = grep { length == 3 } @animals;
+
+	# supply an argument list
+	wash_animals( qw( dog cat bird ) );
+	wash_animals( @animals );
+
+Array operations, which change the scalars, reaaranges them, or adds
+or subtracts some scalars, only work on arrays. These can't work on a
+list, which is fixed. Array operations include C<shift>, C<unshift>,
+C<push>, C<pop>, and C<splice>.
+
+An array can also change its length:
+
+	$#animals = 1;  # truncate to two elements
+	$#animals = 10000; # pre-extend to 10,001 elements
+
+You can change an array element, but you can't change a list element:
+
+	$animals[0] = 'Rottweiler';
+	qw( dog cat bird )[0] = 'Rottweiler'; # syntax error!
+
+	foreach ( @animals ) {
+		s/^d/fr/;  # works fine
+		}
+
+	foreach ( qw( dog cat bird ) ) {
+		s/^d/fr/;  # Error! Modification of read only value!
+		}
+
+However, if the list element is itself a variable, it appears that you
+can change a list element. However, the list element is the variable, not
+the data. You're not changing the list element, but something the list
+element refers to. The list element itself doesn't change: it's still
+the same variable.
+
+You also have to be careful about context. You can assign an array to
+a scalar to get the number of elements in the array. This only works
+for arrays, though:
+
+	my $count = @animals;  # only works with arrays
+
+If you try to do the same thing with what you think is a list, you
+get a quite different result. Although it looks like you have a list
+on the righthand side, Perl actually sees a bunch of scalars separated
+by a comma:
+
+	my $scalar = ( 'dog', 'cat', 'bird' );  # $scalar gets bird
+
+Since you're assigning to a scalar, the righthand side is in scalar
+context. The comma operator (yes, it's an operator!) in scalar
+context evaluates its lefthand side, throws away the result, and
+evaluates it's righthand side and returns the result. In effect,
+that list-lookalike assigns to C<$scalar> it's rightmost value. Many
+people mess this up becuase they choose a list-lookalike whose
+last element is also the count they expect:
+
+	my $scalar = ( 1, 2, 3 );  # $scalar gets 3, accidentally
 
 =head2 What is the difference between $array[1] and @array[1]?
 
-The former is a scalar value; the latter an array slice, making
-it a list with one (scalar) value.  You should use $ when you want a
-scalar value (most of the time) and @ when you want a list with one
-scalar value in it (very, very rarely; nearly never, in fact).
+(contributed by brian d foy)
 
-Sometimes it doesn't make a difference, but sometimes it does.
-For example, compare:
+The difference is the sigil, that special character in front of the
+array name. The C<$> sigil means "exactly one item", while the C<@>
+sigil means "zero or more items". The C<$> gets you a single scalar,
+while the C<@> gets you a list.
 
-	$good[0] = `some program that outputs several lines`;
+The confusion arises because people incorrectly assume that the sigil
+denotes the variable type.
 
-with
+The C<$array[1]> is a single-element access to the array. It's going
+to return the item in index 1 (or undef if there is no item there).
+If you intend to get exactly one element from the array, this is the
+form you should use.
 
-	@bad[0]  = `same program that outputs several lines`;
+The C<@array[1]> is an array slice, although it has only one index.
+You can pull out multiple elements simultaneously by specifying
+additional indices as a list, like C<@array[1,4,3,0]>.
 
-The C<use warnings> pragma and the B<-w> flag will warn you about these
-matters.
+Using a slice on the lefthand side of the assignment supplies list
+context to the righthand side. This can lead to unexpected results.
+For instance, if you want to read a single line from a filehandle,
+assigning to a scalar value is fine:
+
+	$array[1] = <STDIN>;
+
+However, in list context, the line input operator returns all of the
+lines as a list. The first line goes into C<@array[1]> and the rest
+of the lines mysteriously disappear:
+
+	@array[1] = <STDIN>;  # most likely not what you want
+
+Either the C<use warnings> pragma or the B<-w> flag will warn you when
+you use an array slice with a single index.
 
 =head2 How can I remove duplicate elements from a list or array?
 
@@ -2061,9 +2137,9 @@ You can use the C<keys()> built-in function in scalar context to find out
 have many entries you have in a hash:
 
 	my $key_count = keys %hash; # must be scalar context!
-	
+
 If you want to find out how many entries have a defined value, that's
-a bit different. You have to check each value. A C<grep> is handy: 
+a bit different. You have to check each value. A C<grep> is handy:
 
 	my $defined_value_count = grep { defined } values %hash;
 
@@ -2072,7 +2148,7 @@ you like. If you want the count of the keys with vowels in them,
 you just test for that instead:
 
 	my $vowel_count = grep { /[aeiou]/ } keys %hash;
-	
+
 The C<grep> in scalar context returns the count. If you want the list
 of matching items, just use it in list context instead:
 
@@ -2497,17 +2573,9 @@ the C<PDL> module from CPAN instead--it makes number-crunching easy.
 
 See L<http://search.cpan.org/dist/PGPLOT> for the code.
 
-=head1 REVISION
-
-Revision: $Revision$
-
-Date: $Date$
-
-See L<perlfaq> for source control details and availability.
-
 =head1 AUTHOR AND COPYRIGHT
 
-Copyright (c) 1997-2009 Tom Christiansen, Nathan Torkington, and
+Copyright (c) 1997-2010 Tom Christiansen, Nathan Torkington, and
 other authors as noted. All rights reserved.
 
 This documentation is free; you can redistribute it and/or modify it

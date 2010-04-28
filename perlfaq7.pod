@@ -375,12 +375,9 @@ The expected output is:
 
 =head2 How can I pass/return a {Function, FileHandle, Array, Hash, Method, Regex}?
 
-With the exception of regexes, you need to pass references to these
-objects.  See L<perlsub/"Pass by Reference"> for this particular
-question, and L<perlref> for information on references.
-
-See "Passing Regexes", later in L<perlfaq7>, for information on
-passing regular expressions.
+You need to pass references to these objects.  See L<perlsub/"Pass by
+Reference"> for this particular question, and L<perlref> for
+information on references.
 
 =over 4
 
@@ -420,12 +417,9 @@ and especially L<perlsub/"Pass by Reference"> for more information.
 
 =item Passing Regexes
 
-To pass regexes around, you'll need to be using a release of Perl
-sufficiently recent as to support the C<qr//> construct, pass around
-strings and use an exception-trapping eval, or else be very, very clever.
-
-Here's an example of how to pass in a string to be regex compared
-using C<qr//>:
+Here's an example of how to pass in a string and a regular expression
+for it to match against. You construct the pattern with the C<qr//>
+operator:
 
 	sub compare($$) {
 		my ($val1, $regex) = @_;
@@ -656,7 +650,7 @@ see L<perltoot/"Overridden Methods">.
 Calling a subroutine as C<&foo> with no trailing parentheses ignores
 the prototype of C<foo> and passes it the current value of the argument
 list, C<@_>. Here's an example; the C<bar> subroutine calls C<&foo>,
-which prints what its arguments list:
+which prints its arguments list:
 
 	sub bar { &foo }
 
@@ -874,10 +868,10 @@ comments). You end the comment with C<=cut>, ending the Pod section:
 
 	=cut
 
-The quick-and-dirty method only works well when you don't plan to 
+The quick-and-dirty method only works well when you don't plan to
 leave the commented code in the source. If a Pod parser comes along,
 you're multiline comment is going to show up in the Pod translation.
-A better way hides it from Pod parsers as well. 
+A better way hides it from Pod parsers as well.
 
 The C<=begin> directive can mark a section for a particular purpose.
 If the Pod parser doesn't want to handle it, it just ignores it. Label
@@ -1054,17 +1048,9 @@ If you get a message like "perl: command not found", perl is not in
 your PATH, which might also mean that the location of perl is not
 where you expect it so you need to adjust your shebang line.
 
-=head1 REVISION
-
-Revision: $Revision$
-
-Date: $Date$
-
-See L<perlfaq> for source control details and availability.
-
 =head1 AUTHOR AND COPYRIGHT
 
-Copyright (c) 1997-2009 Tom Christiansen, Nathan Torkington, and
+Copyright (c) 1997-2010 Tom Christiansen, Nathan Torkington, and
 other authors as noted. All rights reserved.
 
 This documentation is free; you can redistribute it and/or modify it
